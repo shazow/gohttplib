@@ -1,11 +1,7 @@
 package main
 
 import "C"
-import (
-	"fmt"
-	"html"
-	"net/http"
-)
+import "net/http"
 
 //export ListenAndServe
 func ListenAndServe(caddr *C.char) {
@@ -14,9 +10,3 @@ func ListenAndServe(caddr *C.char) {
 }
 
 func main() {}
-
-func init() {
-	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-	})
-}

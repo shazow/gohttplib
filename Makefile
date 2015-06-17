@@ -5,3 +5,6 @@ static-lib:
 
 example-c:
 	gcc -o gohttp-c examples/c/main.c gohttplib.a -lpthread
+
+clean:
+	rm *.a *.h gohttp-*
