@@ -1,3 +1,5 @@
+all: static-lib example-c
+
 static-lib:
 	go build -buildmode=c-archive
 

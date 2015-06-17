@@ -4,8 +4,9 @@ import "C"
 import "fmt"
 
 //export Hello
-func Hello() {
-	fmt.Println("Hello, world.")
+func Hello(cs *C.char) {
+	s := C.GoString(cs)
+	fmt.Println(s)
 }
 
 func main() {}
