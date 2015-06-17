@@ -3,6 +3,6 @@
 
 int main()
 {
-    Hello("Sup, world.");
+    ListenAndServe(":8000");
     return 0;
 }
