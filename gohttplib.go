@@ -3,9 +3,9 @@ package main
 import "C"
 import "fmt"
 
-//export Print
-func Print(s string) {
-	fmt.Println(s)
+//export Hello
+func Hello() {
+	fmt.Println("Hello, world.")
 }
 
 func main() {}
