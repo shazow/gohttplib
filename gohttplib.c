@@ -1,5 +1,5 @@
 #include "_cgo_export.h"
 
-char * Call_HandleFunc(FuncPtr *fn) {
-    return fn();
+void Call_HandleFunc(void* w, FuncPtr *fn) {
+    return fn(w);
 } 

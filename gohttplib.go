@@ -1,12 +1,23 @@
+// TODO: Need to free all C.* types after using them
 package main
 
-// typedef char * FuncPtr();
-// extern char * Call_HandleFunc(FuncPtr *fn);
+// typedef void FuncPtr(void* w);
+// extern void Call_HandleFunc(void* w, FuncPtr* fn);
 import "C"
 import (
-	"fmt"
 	"net/http"
+	"unsafe"
 )
+
+type responseWriter struct {
+	http.ResponseWriter
+}
+
+//export ResponseWriter_Write
+func ResponseWriter_Write(w unsafe.Pointer, cbuf *C.char, n C.int) (int, error) {
+	buf := C.GoBytes(unsafe.Pointer(cbuf), n)
+	return (*responseWriter)(w).Write(buf)
+}
 
 //export ListenAndServe
 func ListenAndServe(caddr *C.char) {
@@ -18,9 +29,7 @@ func ListenAndServe(caddr *C.char) {
 func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 	pattern := C.GoString(cpattern)
 	http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
-		cout := C.Call_HandleFunc(cfn)
-		out := C.GoString(cout)
-		fmt.Fprintf(w, out)
+		C.Call_HandleFunc(unsafe.Pointer(&responseWriter{w}), cfn)
 	})
 }
 

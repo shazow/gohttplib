@@ -1,9 +1,10 @@
-#include <stdio.h>
 #include "gohttplib.h"
 
-char * handler()
+void handler(void* w)
 {
-    return "Hello, world.";
+    char* buf = "Hello, world";
+    ResponseWriter_Write(w, buf, 12);
+    // TODO: Handle return
 }
 
 int main()
