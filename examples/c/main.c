@@ -8,6 +8,7 @@ void handler(void* w)
 
     if (n == EOF) { 
         printf("handler: Failed to write.\n");
+        ResponseWriter_WriteHeader(w, 500);
         return;
     }
 
