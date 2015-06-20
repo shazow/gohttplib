@@ -1,6 +1,7 @@
 // TODO: Need to free all C.* types after using them
 package main
 
+// #include <stdio.h>
 // typedef void FuncPtr(void* w);
 // extern void Call_HandleFunc(void* w, FuncPtr* fn);
 import "C"
@@ -14,9 +15,13 @@ type responseWriter struct {
 }
 
 //export ResponseWriter_Write
-func ResponseWriter_Write(w unsafe.Pointer, cbuf *C.char, n C.int) (int, error) {
-	buf := C.GoBytes(unsafe.Pointer(cbuf), n)
-	return (*responseWriter)(w).Write(buf)
+func ResponseWriter_Write(w unsafe.Pointer, cbuf *C.char, length C.int) C.int {
+	buf := C.GoBytes(unsafe.Pointer(cbuf), length)
+	n, err := (*responseWriter)(w).Write(buf)
+	if err != nil {
+		return C.EOF
+	}
+	return C.int(n)
 }
 
 //export ListenAndServe

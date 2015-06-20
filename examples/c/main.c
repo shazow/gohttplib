@@ -1,10 +1,17 @@
+#include <stdio.h>
 #include "gohttplib.h"
 
 void handler(void* w)
 {
     char* buf = "Hello, world";
-    ResponseWriter_Write(w, buf, 12);
-    // TODO: Handle return
+    int n = ResponseWriter_Write(w, buf, 12);
+
+    if (n == EOF) { 
+        printf("handler: Failed to write.\n");
+        return;
+    }
+
+    printf("handler: Wrote %d bytes.\n", n);
 }
 
 int main()
