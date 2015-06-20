@@ -1,8 +1,12 @@
 package main
 
 // typedef char * FuncPtr();
+// extern char * Call_HandleFunc(FuncPtr *fn);
 import "C"
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 //export ListenAndServe
 func ListenAndServe(caddr *C.char) {
@@ -12,6 +16,12 @@ func ListenAndServe(caddr *C.char) {
 
 //export HandleFunc
 func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
+	pattern := C.GoString(cpattern)
+	http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
+		cout := C.Call_HandleFunc(cfn)
+		out := C.GoString(cout)
+		fmt.Fprintf(w, out)
+	})
 }
 
 func main() {}
