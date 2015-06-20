@@ -8,9 +8,11 @@ typedef struct Request_
     const char *URL;
 } Request;
 
-typedef void FuncPtr(void *w, Request *r);
+typedef void ResponseWriter;
 
-extern void Call_HandleFunc(void *w, Request *r, FuncPtr *fn);
+typedef void FuncPtr(ResponseWriter *w, Request *r);
+
+extern void Call_HandleFunc(ResponseWriter *w, Request *r, FuncPtr *fn);
 */
 import "C"
 import (
