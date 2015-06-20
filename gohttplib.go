@@ -1,6 +1,6 @@
 package main
 
-// #include "bridge.h"
+// typedef char * FuncPtr();
 import "C"
 import "net/http"
 
