@@ -1,5 +1,6 @@
 package main
 
+// #include "bridge.h"
 import "C"
 import "net/http"
 
@@ -7,6 +8,10 @@ import "net/http"
 func ListenAndServe(caddr *C.char) {
 	addr := C.GoString(caddr)
 	http.ListenAndServe(addr, nil)
+}
+
+//export HandleFunc
+func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 }
 
 func main() {}

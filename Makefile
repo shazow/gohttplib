@@ -6,11 +6,16 @@ endif
 
 all: static-lib example-c
 
-static-lib:
-	go build -buildmode=c-archive
+build:
+	mkdir build
 
-example-c:
-	gcc -o gohttp-c examples/c/main.c gohttplib.a $(LDFLAGS) -lpthread
+build/gohttplib.a: build/ *.go
+	go build -buildmode=c-archive -o build/gohttplib.a
+
+static-lib: build/gohttplib.a
+
+example-c: static-lib examples/c/
+	gcc -o build/gohttp-c -I build/ -I . examples/c/main.c build/gohttplib.a $(LDFLAGS) -lpthread
 
 clean:
-	rm *.a *.h gohttp-*
+	rm -rf build/
