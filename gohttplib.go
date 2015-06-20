@@ -1,8 +1,17 @@
 package main
 
-// #include <stdio.h>
-// typedef void FuncPtr(void* w);
-// extern void Call_HandleFunc(void* w, FuncPtr* fn);
+/*
+typedef struct Request_
+{
+    const char *Method;
+    const char *Host;
+    const char *URL;
+} Request;
+
+typedef void FuncPtr(void *w, Request *r);
+
+extern void Call_HandleFunc(void *w, Request *r, FuncPtr *fn);
+*/
 import "C"
 import (
 	"net/http"
@@ -19,8 +28,12 @@ func ListenAndServe(caddr *C.char) {
 func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 	pattern := C.GoString(cpattern)
 	http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
-		// TODO: Add request to handler API.
-		C.Call_HandleFunc(unsafe.Pointer(&responseWriter{w}), cfn)
+		creq := C.Request{
+			Method: C.CString(req.Method),
+			Host:   C.CString(req.Host),
+			URL:    C.CString(req.URL.String()),
+		}
+		C.Call_HandleFunc(unsafe.Pointer(&responseWriter{w}), &creq, cfn)
 	})
 }
 

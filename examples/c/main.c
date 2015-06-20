@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include "gohttplib.h"
 
-void handler(void* w)
+void handler(void *w, Request *req)
 {
-    char* buf = "Hello, world";
+    printf("handler: %s %s\n", req->Method, req->URL);
+
+    char *buf = "Hello, world";
     int n = ResponseWriter_Write(w, buf, 12);
 
     if (n == EOF) { 
