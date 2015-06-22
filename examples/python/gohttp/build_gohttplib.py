@@ -26,7 +26,7 @@ ffi.cdef(lib_header)
 
 ffi.set_source("gohttplib", """
     #include "gohttplib.h"
-""", include_dirs=["../../build/"])
+""", include_dirs=["../../../build"])
 
 
 if __name__ == "__main__":
