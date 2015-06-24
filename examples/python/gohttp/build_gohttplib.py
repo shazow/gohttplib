@@ -1,12 +1,10 @@
 from cffi import FFI
 
 ffi = FFI()
-ffi.set_source("gohttplib",
-    '#include "../../../build/gohttplib.h"',
-)
+ffi.set_source("gohttp._gohttplib", None)
 
 # Copied from the Go-generated gohttplib.h
-ffi.cdef( """
+ffi.cdef("""
 typedef struct Request_
 {
     const char *Method;
