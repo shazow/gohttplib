@@ -68,7 +68,8 @@ $ make example-python
 $ python examples/python/run.py
 ```
 
-The server is now listening on `http://localhost:8001`.
+Now you can request `http://localhost:8001/hello` and the Python handler in
+`examples/python/__init__.py` will handle it!
 
 **Outstanding issue**: [Get cffi to link against our static archive](https://github.com/shazow/gohttplib/issues/4)
 

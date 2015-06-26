@@ -20,6 +20,7 @@ void handler(ResponseWriter *w, Request *req)
 int main()
 {
     HandleFunc("/hello", &handler);
+    printf("Listening on :8000\n");
     ListenAndServe(":8000");
     return 0;
 }
