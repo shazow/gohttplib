@@ -6,24 +6,35 @@ endif
 
 all: examples
 
-examples: build/gohttp-c examples/python/gohttp/_gohttplib.so
+examples: example-c example-python
+
+example-c: build/gohttp-c
+
+example-c-static: build/gohttp-c-static
+
+example-python: examples/python/gohttp/_gohttplib.py
 
 
-build/gohttplib.a: *.go
+build/:
+	mkdir build
+
+build/libgohttp.a: *.go
 	go build -buildmode=c-archive -o $@
 
-build/libgohttp.so: *.go
-	go build -buildmode=c-shared -o $(notdir $@) && mv $(notdir $@) $@
+build/libgohttp.so: *.go build
+	go build -buildmode=c-shared -o libgohttp.so && mv libgohttp.* $(dir $@)
 
-build/gohttp-c: examples/c/ build/gohttplib.a
-	gcc -o build/gohttp-c examples/c/main.c build/gohttplib.a $(LDFLAGS) -lpthread
+build/gohttp-c-static: examples/c/ build/libgohttp.a
+	gcc -o $@ examples/c/main.c build/libgohttp.a $(LDFLAGS) -lpthread
 
+build/gohttp-c: examples/c/ build/libgohttp.so
+	gcc -o $@ examples/c/main.c -Lbuild -lgohttp -lpthread $(LDFLAGS)
 
 examples/python/gohttp/libgohttp.so: build/libgohttp.so
 	cp $< $@
 
-examples/python/gohttp/_gohttplib.so: examples/python/gohttp/*.py examples/python/gohttp/libgohttp.so
-	cd $(dir $@)/.. && python gohttp/build_gohttplib.py
+examples/python/gohttp/_gohttplib.py: examples/python/gohttp/build_gohttplib.py examples/python/gohttp/libgohttp.so
+	cd examples/python && python gohttp/build_gohttplib.py
 
 clean:
 	rm -rf build/

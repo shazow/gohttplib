@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../../build/gohttplib.h"
+#include "../../build/libgohttp.h"
 
 void handler(ResponseWriter *w, Request *req)
 {
