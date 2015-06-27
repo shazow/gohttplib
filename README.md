@@ -5,7 +5,8 @@ handlers.
 
 This is a silly project for experimenting with Go v1.5 buildmodes.
 
-**Status**: Tiny subset of the http.HandlerFunc callback gets passed to a C handler callback successfully.
+**Status**: Tiny subset of the `http.HandlerFunc` callback gets passed to a C
+handler callback. Python bindings are working, too.
 
 
 ## Getting Started
