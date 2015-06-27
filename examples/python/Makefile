@@ -1,7 +1,9 @@
+dist/: build
+
 build:
 	python setup.py sdist bdist
 
-publish:
+publish: dist/
 	twine upload dist/*
 
 clean:
