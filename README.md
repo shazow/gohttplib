@@ -65,13 +65,28 @@ The Python example uses [python-cffi](https://cffi.readthedocs.org/en/latest/)
 
 ```
 $ make example-python
-$ python examples/python/run.py
+$ cd examples/python
+$ python -m gohttp
+ * Running on http://127.0.0.1:5000/
 ```
 
-Now you can request `http://localhost:8001/hello` and the Python handler in
-`examples/python/__init__.py` will handle it!
+Or write your own handler using this library:
 
-**Outstanding issue**: [Get cffi to link against our static archive](https://github.com/shazow/gohttplib/issues/4)
+```python
+from gohttp import route, run
+
+@route('/')
+def index(w, req):
+    w.write("%s %s %s\n" % (req.method, req.host, req.url))
+    w.write("Hello, world.\n")
+
+run(host='127.0.0.1', port=5000)
+```
+
+**Outstanding issues**:
+
+- [gohttp @ pypi](https://pypi.python.org/pypi/gohttp) ships with only with a
+  shared object build for OSX. Won't work on other platforms.
 
 
 ## References & Credit
