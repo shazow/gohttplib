@@ -86,8 +86,7 @@ run(host='127.0.0.1', port=5000)
 
 **Outstanding issues**:
 
-- [gohttp @ pypi](https://pypi.python.org/pypi/gohttp) ships with only with a
-  shared object build for OSX. Won't work on other platforms.
+- [#7](https://github.com/shazow/gohttplib/issues/7): [gohttp @ pypi](https://pypi.python.org/pypi/gohttp) ships with only with a shared object build for OSX. Won't work on other platforms.
 
 
 ## References & Credit
