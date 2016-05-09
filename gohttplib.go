@@ -8,11 +8,11 @@ typedef struct Request_
     const char *URL;
 } Request;
 
-typedef void ResponseWriter;
+typedef unsigned int ResponseWriterPtr;
 
-typedef void FuncPtr(unsigned int wPtr, Request *r);
+typedef void FuncPtr(ResponseWriterPtr w, Request *r);
 
-extern void Call_HandleFunc(unsigned int wPtr, Request *r, FuncPtr *fn);
+extern void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
 */
 import "C"
 import (
@@ -38,7 +38,7 @@ func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 			URL:    C.CString(req.URL.String()),
 		}
 		wPtr := cpointers.Ref(unsafe.Pointer(&w))
-		C.Call_HandleFunc(wPtr, &creq, cfn)
+		C.Call_HandleFunc(C.ResponseWriterPtr(wPtr), &creq, cfn)
 		cpointers.Free(wPtr)
 	})
 }

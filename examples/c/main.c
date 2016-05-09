@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../../build/libgohttp.h"
 
-void handler(ResponseWriter *w, Request *req)
+void handler(ResponseWriterPtr w, Request *req)
 {
     printf("handler: %s %s\n", req->Method, req->URL);
 

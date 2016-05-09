@@ -1,5 +1,5 @@
 #include "_cgo_export.h"
 
-void Call_HandleFunc(unsigned int wPtr, Request *req, FuncPtr *fn) {
-    return fn(wPtr, req);
+void Call_HandleFunc(ResponseWriterPtr w, Request *req, FuncPtr *fn) {
+    return fn(w, req);
 } 
