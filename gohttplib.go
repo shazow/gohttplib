@@ -10,12 +10,15 @@ typedef struct Request_
 
 typedef void ResponseWriter;
 
-typedef void FuncPtr(int wPtr, Request *r);
+typedef void FuncPtr(unsigned int wPtr, Request *r);
 
-extern void Call_HandleFunc(int wPtr, Request *r, FuncPtr *fn);
+extern void Call_HandleFunc(unsigned int wPtr, Request *r, FuncPtr *fn);
 */
 import "C"
-import "net/http"
+import (
+	"net/http"
+	"unsafe"
+)
 
 var cpointers = PtrProxy()
 
@@ -34,8 +37,8 @@ func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 			Host:   C.CString(req.Host),
 			URL:    C.CString(req.URL.String()),
 		}
-		wPtr := cpointers.Ref(w)
-		C.Call_HandleFunc(C.int(wPtr), &creq, cfn)
+		wPtr := cpointers.Ref(unsafe.Pointer(&w))
+		C.Call_HandleFunc(wPtr, &creq, cfn)
 		cpointers.Free(wPtr)
 	})
 }

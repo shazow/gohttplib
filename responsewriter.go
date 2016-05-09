@@ -8,15 +8,15 @@ import (
 )
 
 //export ResponseWriter_Write
-func ResponseWriter_Write(wPtr C.int, cbuf *C.char, length C.int) C.int {
+func ResponseWriter_Write(wPtr C.uint, cbuf *C.char, length C.int) C.int {
 	buf := C.GoBytes(unsafe.Pointer(cbuf), length)
 
-	w, ok := cpointers.Deref(int(wPtr))
+	w, ok := cpointers.Deref(wPtr)
 	if !ok {
 		return C.EOF
 	}
 
-	n, err := w.(http.ResponseWriter).Write(buf)
+	n, err := (*(*http.ResponseWriter)(w)).Write(buf)
 	if err != nil {
 		return C.EOF
 	}
@@ -24,10 +24,10 @@ func ResponseWriter_Write(wPtr C.int, cbuf *C.char, length C.int) C.int {
 }
 
 //export ResponseWriter_WriteHeader
-func ResponseWriter_WriteHeader(wPtr C.int, header C.int) {
-	w, ok := cpointers.Deref(int(wPtr))
+func ResponseWriter_WriteHeader(wPtr C.uint, header C.int) {
+	w, ok := cpointers.Deref(wPtr)
 	if !ok {
 		return
 	}
-	w.(http.ResponseWriter).WriteHeader(int(header))
+	(*(*http.ResponseWriter)(w)).WriteHeader(int(header))
 }
