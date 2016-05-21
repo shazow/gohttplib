@@ -9,7 +9,7 @@ os.chdir(os.path.dirname(sys.argv[0]) or ".")
 
 setup(
     name="gohttp",
-    version="0.3",
+    version="0.3.2",
     description="Bindings for gohttplib, exposing Go's http.Server",
     long_description=open("README.rst", "rt").read(),
     url="https://github.com/shazow/gohttplib",

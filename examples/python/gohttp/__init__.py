@@ -52,7 +52,7 @@ def route(pattern, fn=None):
         ResponseWriter and Request object.
     """
     def wrapped(fn):
-        @ffi.callback("void(ResponseWriter*, Request*)")
+        @ffi.callback("void(ResponseWriterPtr, Request*)")
         def handler(w, req):
             fn(ResponseWriter(w), Request(req))
 
