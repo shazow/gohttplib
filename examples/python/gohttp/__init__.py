@@ -65,7 +65,7 @@ def route(pattern, fn=None):
     return wrapped
 
 
-def run(host='127.0.0.1', port=5000):
+def run(host='', port=5000):
     bind = '{}:{}'.format(host or '', port)
     print(" * Running on http://{}/".format(bind))
     lib.ListenAndServe(bind)
