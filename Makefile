@@ -38,3 +38,6 @@ examples/python/gohttp/_gohttplib.py: examples/python/gohttp/build_gohttplib.py 
 
 clean:
 	rm -rf build/
+
+benchmark:
+	ab -n 10000 -c 10 -s 3 http://127.0.0.1:$(PORT)/
