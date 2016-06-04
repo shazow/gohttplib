@@ -56,7 +56,7 @@ def route(pattern, fn=None):
         def handler(w, req):
             fn(ResponseWriter(w), Request(req))
 
-        lib.HandleFunc(pattern, handler)
+        lib.HandleFunc(str.encode(pattern), handler)
         _handlers.append(handler)
 
     if fn:
@@ -68,4 +68,4 @@ def route(pattern, fn=None):
 def run(host='', port=5000):
     bind = '{}:{}'.format(host or '', port)
     print(" * Running on http://{}/".format(bind))
-    lib.ListenAndServe(bind)
+    lib.ListenAndServe(str.encode(bind))
