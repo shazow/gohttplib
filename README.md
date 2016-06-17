@@ -3,7 +3,7 @@
 Shared library that exposes Go's `net/http.Server` with externally-bindable
 handlers.
 
-This is a silly project for experimenting with Go v1.5 buildmodes.
+This is a silly project for experimenting with Go buildmodes. I gave a [talk about this at PyCon 2016](https://www.youtube.com/watch?v=CkDwb5koRTc).
 
 **Status**: Tiny subset of the `http.HandlerFunc` callback gets passed to a C
 handler callback. Python bindings are working, too.
