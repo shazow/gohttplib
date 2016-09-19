@@ -3,12 +3,12 @@
 
 void handler(ResponseWriterPtr w, Request *req)
 {
-    printf("handler: %s %s\n", req->Method, req->URL);
+    printf("handler: %s %s\n%s\n\n%s\n", req->Method, req->URL, req->Headers, req->Body);
 
     char *buf = "Hello, world";
     int n = ResponseWriter_Write(w, buf, 12);
 
-    if (n == EOF) { 
+    if (n == EOF) {
         printf("handler: Failed to write.\n");
         ResponseWriter_WriteHeader(w, 500);
         return;

@@ -5,7 +5,9 @@ typedef struct Request_
 {
     const char *Method;
     const char *Host;
-    const char *URL;
+		const char *URL;
+		const char *Body;
+    const char *Headers;
 } Request;
 
 typedef unsigned int ResponseWriterPtr;
@@ -16,6 +18,7 @@ extern void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
 */
 import "C"
 import (
+	"bytes"
 	"net/http"
 	"unsafe"
 )
@@ -33,11 +36,21 @@ func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 	// C-friendly wrapping for our http.HandleFunc call.
 	pattern := C.GoString(cpattern)
 	http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
+		// Convert the headers to a String
+		headerBuffer := new(bytes.Buffer)
+		req.Header.Write(headerBuffer)
+		headersString := headerBuffer.String()
+		// Convert the request body to a String
+		bodyBuffer := new(bytes.Buffer)
+		bodyBuffer.ReadFrom(req.Body)
+		bodyString := bodyBuffer.String()
 		// Wrap relevant request fields in a C-friendly datastructure.
 		creq := C.Request{
-			Method: C.CString(req.Method),
-			Host:   C.CString(req.Host),
-			URL:    C.CString(req.URL.String()),
+			Method:  C.CString(req.Method),
+			Host:    C.CString(req.Host),
+			URL:     C.CString(req.URL.String()),
+			Body:    C.CString(bodyString),
+			Headers: C.CString(headersString),
 		}
 		// Convert the ResponseWriter interface instance to an opaque C integer
 		// that we can safely pass along.

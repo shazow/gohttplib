@@ -36,6 +36,14 @@ class Request:
     def url(self):
         return ffi.string(self._req.URL)
 
+    @property
+    def body(self):
+        return ffi.string(self._req.Body)
+
+    @property
+    def headers(self):
+        return ffi.string(self._req.Headers)
+
     def __repr__(self):
         return "{self.method} {self.url}".format(self=self)
 

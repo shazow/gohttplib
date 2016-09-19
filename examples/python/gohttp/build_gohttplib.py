@@ -10,6 +10,8 @@ typedef struct Request_
     const char *Method;
     const char *Host;
     const char *URL;
+    const char *Body;
+    const char *Headers;
 } Request;
 
 typedef unsigned int ResponseWriterPtr;
