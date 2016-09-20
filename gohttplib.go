@@ -1,6 +1,8 @@
 package main
 
 /*
+#include <stdlib.h>
+
 typedef struct Request_
 {
     const char *Method;
@@ -57,6 +59,12 @@ func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 		wPtr := cpointers.Ref(unsafe.Pointer(&w))
 		// Call our C function pointer using our C shim.
 		C.Call_HandleFunc(C.ResponseWriterPtr(wPtr), &creq, cfn)
+		// release the C memory
+		C.free(unsafe.Pointer(creq.Method))
+		C.free(unsafe.Pointer(creq.Host))
+		C.free(unsafe.Pointer(creq.URL))
+		C.free(unsafe.Pointer(creq.Body))
+		C.free(unsafe.Pointer(creq.Headers))
 		// Release the ResponseWriter from the registry since we're done with
 		// this response.
 		cpointers.Free(wPtr)
