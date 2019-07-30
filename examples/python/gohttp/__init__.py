@@ -77,3 +77,6 @@ def run(host='', port=5000):
     bind = '{}:{}'.format(host or '', port)
     print(" * Running on http://{}/".format(bind))
     lib.ListenAndServe(str.encode(bind))
+    
+def shutdown():
+    lib.Shutdown()

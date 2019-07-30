@@ -22,6 +22,8 @@ void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
 
 void ListenAndServe(char* p0);
 
+void Shutdown();
+
 void HandleFunc(char* p0, FuncPtr* p1);
 
 int ResponseWriter_Write(unsigned int p0, char* p1, int p2);

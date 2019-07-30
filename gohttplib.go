@@ -23,14 +23,22 @@ import (
 	"bytes"
 	"net/http"
 	"unsafe"
+	"context"
 )
 
 var cpointers = PtrProxy()
+var srv http.Server = http.Server{}
 
 //export ListenAndServe
 func ListenAndServe(caddr *C.char) {
 	addr := C.GoString(caddr)
-	http.ListenAndServe(addr, nil)
+	srv.Addr = addr
+	srv.ListenAndServe()
+}
+
+//export Shutdown
+func Shutdown() {
+	srv.Shutdown(context.Background())
 }
 
 //export HandleFunc
